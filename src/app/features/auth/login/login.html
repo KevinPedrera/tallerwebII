@@ -1,0 +1,57 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-200">
+
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">
+      Iniciar Sesión
+    </h2>
+    <p class="text-center text-gray-600 mb-6">
+      Ingresa tus credenciales para continuar
+    </p>
+
+    <form (ngSubmit)="iniciarSesion()" class="space-y-5">
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Correo electrónico</label>
+        <input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          required
+          placeholder="ejemplo@correo.com"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 outline-none"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
+        <input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          required
+          placeholder="********"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 outline-none"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-all"
+      >
+        Iniciar Sesión
+      </button>
+
+    </form>
+
+    <div class="mt-6 text-center flex flex-col gap-2">
+      <button routerLink="/registro" class="text-blue-600 hover:underline font-semibold">
+        ¿No tienes cuenta? Regístrate
+      </button>
+
+      <button routerLink="/" class="text-gray-600 hover:underline text-sm">
+        ← Volver al inicio
+      </button>
+    </div>
+
+  </div>
+</div>

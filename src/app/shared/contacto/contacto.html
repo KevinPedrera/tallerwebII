@@ -1,0 +1,83 @@
+<section class="min-h-screen bg-white pt-24 pb-12">
+    <div class="container px-6 mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+            
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-900 md:text-4xl mb-6">
+                    Hablemos sobre tu <br>
+                    <span class="text-blue-600">Futuro Educativo</span>
+                </h1>
+                <p class="text-gray-600 text-lg mb-8">
+                    ¿Tienes dudas sobre los cursos, necesitas soporte técnico o quieres una alianza para tu escuela? Estamos aquí para ayudarte.
+                </p>
+
+                <div class="space-y-6">
+                    
+                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="p-3 bg-blue-100 text-blue-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Correo Electrónico</h3>
+                            <p class="text-gray-500">contacto@educonnect.com</p>
+                            <p class="text-gray-500">soporte@educonnect.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="p-3 bg-teal-100 text-teal-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Oficinas Centrales</h3>
+                            <p class="text-gray-500">Av. Tecnológica 123, Edificio Innovación.</p>
+                            <p class="text-gray-500">Ciudad de México, MX.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
+                <form (submit)="enviarMensaje($event)" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+                            <input type="text" class="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Tu nombre" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Apellido</label>
+                            <input type="text" class="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Tu apellido">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Correo Electrónico</label>
+                        <input type="email" class="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="nombre@ejemplo.com" required>
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Asunto</label>
+                        <select class="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                            <option>Información de Cursos</option>
+                            <option>Soporte Técnico</option>
+                            <option>Facturación</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Mensaje</label>
+                        <textarea rows="4" class="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full px-6 py-3.5 text-base font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all shadow-lg shadow-blue-500/30">
+                        Enviar Mensaje
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+<footer class="mx-4 my-6 bg-white rounded-2xl shadow-lg border border-gray-100">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-6">
+        
+        <div class="sm:flex sm:items-center sm:justify-between">
+            
+            <a routerLink="/" class="flex items-center mb-4 sm:mb-0 space-x-2 rtl:space-x-reverse group">
+                <div class="p-1 bg-blue-50 rounded text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    </svg>
+                </div>
+                <span class="self-center text-xl font-bold whitespace-nowrap text-gray-800">EduConnect</span>
+            </a>
+
+            <ul class="flex flex-wrap items-center text-sm font-medium text-gray-500 sm:mb-0">
+                <li><a routerLink="cursos" class="hover:text-blue-600 me-4 md:me-6 transition-colors">Cursos</a></li>
+                <li><a routerLink="comunidad" class="hover:text-blue-600 me-4 md:me-6 transition-colors">Comunidad</a></li>
+                <li><a routerLink="contacto" class="hover:text-blue-600 transition-colors">Contacto</a></li>
+            </ul>
+        </div>
+
+        <hr class="my-6 border-gray-100 sm:mx-auto" />
+
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <span class="text-sm text-gray-400 sm:text-center">
+                © {{ anio }} <a routerLink="/" routerLink="/" class="hover:underline text-blue-600">EduConnect</a>.
+            </span>
+            
+            <div class="flex mt-4 sm:justify-center sm:mt-0 space-x-4">
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                    <span class="sr-only">Facebook</span>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 8 19"><path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/></svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                    <span class="sr-only">Twitter</span>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 17"><path fill-rule="evenodd" d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z" clip-rule="evenodd"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
