@@ -1,4 +1,4 @@
-import {Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 @Injectable({
@@ -8,16 +8,17 @@ export class AuthService {
   usuario: User | null = null;
   private auth = getAuth();
 
-  //Metodo Login
-
-  login(email:string, password:string){
-    signInWithEmailAndPassword(this.auth, email, password)
-    .then(resultado => this.usuario= resultado.user)
-    .catch(err => console.error(`login Fallido`, err.message));
+  login(email: string, password: string) {
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then(resultado => {
+        this.usuario = resultado.user;
+        return resultado.user;
+      });
   }
 
-  logout(){
-    signOut(this.auth);
-    this.usuario=null;
+  logout() {
+    return signOut(this.auth).then(() => {
+      this.usuario = null;
+    });
   }
 }

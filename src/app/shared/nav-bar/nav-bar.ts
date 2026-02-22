@@ -11,12 +11,10 @@ import { RouterModule } from '@angular/router';
 export class NavBar {
 isMenuOpen: boolean = false;
 
-  // Alternar menú (abrir/cerrar)
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  // UX: Cerrar menú al hacer clic en un enlace (importante para móvil)
   closeMenu() {
     this.isMenuOpen = false;
   }

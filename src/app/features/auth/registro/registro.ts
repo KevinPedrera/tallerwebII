@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario-service';
 
+
 @Component({
   selector: 'app-registro',
   imports: [CommonModule,FormsModule,RouterLink],
@@ -78,28 +79,39 @@ export class Registro {
 
     this.cargando = true;
 
-    this.usuarioService.postUsuario(this.usuario).subscribe({
-      next: () => {
-        this.cargando = false;
+    this.usuarioService.crearAuthUser(this.usuario.email, this.usuario.password)
+      .then((credenciales) => {
+        
+        
+          next: () => {
+            this.cargando = false;
+            
+            this.usuario = {
+              uid: '',
+              nombre: '',
+              apellido: '',
+              cedula: '',
+              telefono: '',
+              direccion: '',
+              perfil: '',
+              email: '',
+              password: ''
+            };
 
-        this.usuario = {
-          nombre: '',
-          apellido: '',
-          cedula: '',
-          telefono: '',
-          direccion: '',
-          perfil: '',
-          email: '',
-          password: ''
-        };
+            this.router.navigate(['/login']);
+          },
+          error: (err) => {
+            this.cargando = false;
+            console.error(err);
+            this.mensajeError = 'Ocurrió un error al guardar los datos en la base de datos.';
+          }
+        });
 
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
+      })
+      .catch((err) => {
         this.cargando = false;
         console.error(err);
-        this.mensajeError = 'Ocurrió un error al registrar. Inténtalo nuevamente.';
-      }
-    });
+        this.mensajeError = 'Error al crear la cuenta. Es posible que el correo ya esté registrado.';
+      });
   }
 }

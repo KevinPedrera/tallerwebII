@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
+import { UsuarioService } from '../../../services/usuario-service';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   selector: 'app-login',
@@ -12,17 +13,37 @@ import { AuthService } from '../../../services/auth-service';
 })
 export class Login {
 
-  email:string='';
-  password:string='';
+  email = '';
+  password = '';
 
-  private servicioAuth = inject(AuthService);
+  private auth = inject(AuthService);
+  private usuarioService = inject(UsuarioService);
+  private router = inject(Router);
 
-  iniciarSesion(){
-    this.servicioAuth.login(this.email, this.password);
-    alert('Bienvenido al sistema');
-  }
+  iniciarSesion(): void {
+    this.auth.login(this.email, this.password)
+      .then((cred) => {
+        const uid = cred.uid;
 
-  cerrarSesion(){
-    this.servicioAuth.logout();
+        this.usuarioService.getUsuarioPorUid(uid).subscribe((usuario: Usuario | null) => {
+
+          if (!usuario) {
+            alert("No se encontraron datos adicionales del usuario.");
+            return;
+          }
+
+          if (usuario.perfil === 'administrador') {
+            this.router.navigate(['/administrador']);
+          } else if (usuario.perfil === 'profesor') {
+            this.router.navigate(['/profesores']);
+          } else if (usuario.perfil === 'estudiante') {
+            this.router.navigate(['/estudiantes']);
+          } else {
+            alert("Perfil no reconocido.");
+          }
+
+        });
+      })
+      .catch(err => alert("Credenciales incorrectas"));
   }
 }
