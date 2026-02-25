@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario-service';
-
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-registro',
@@ -12,30 +12,20 @@ import { UsuarioService } from '../../../services/usuario-service';
   styleUrl: './registro.css',
 })
 export class Registro {
-
-    // Estado del formulario
   cargando: boolean = false;
   mensajeError: string = '';
   mostrarPassword: boolean = false;
 
-  // Modelo del formulario
   usuario = {
-    nombre: '',
-    apellido: '',
-    cedula: '',
-    telefono: '',
-    direccion: '',
-    perfil: '',
-    email: '',
-    password: ''
+    nombre: '', apellido: '', cedula: '', telefono: '',
+    direccion: '', perfil: '', email: '', password: ''
   };
 
-  constructor(
-    private usuarioService: UsuarioService,
-    private router: Router
-  ) {}
+  private usuarioService = inject(UsuarioService);
+  private authService = inject(AuthService); // <-- Inyectar el servicio de Auth
+  private router = inject(Router);
 
-   togglePassword() {
+  togglePassword() {
     this.mostrarPassword = !this.mostrarPassword;
   }
 
@@ -44,29 +34,20 @@ export class Registro {
   }
 
   validarFormulario(): boolean {
-    if (!this.usuario.nombre.trim() ||
-        !this.usuario.apellido.trim() ||
-        !this.usuario.cedula.trim() ||
-        !this.usuario.telefono.trim() ||
-        !this.usuario.direccion.trim() ||
-        !this.usuario.perfil.trim() ||
-        !this.usuario.email.trim() ||
-        !this.usuario.password.trim()) {
-
+    if (!this.usuario.nombre.trim() || !this.usuario.apellido.trim() || !this.usuario.cedula.trim() ||
+        !this.usuario.telefono.trim() || !this.usuario.direccion.trim() || !this.usuario.perfil.trim() ||
+        !this.usuario.email.trim() || !this.usuario.password.trim()) {
       this.mensajeError = 'Todos los campos son obligatorios.';
       return false;
     }
-
     if (this.usuario.cedula.length !== 10) {
-      this.mensajeError = 'La cédula debe tener 10 dígitos.';
+      this.mensajeError = 'La cédula debe tener exactamente 10 dígitos.';
       return false;
     }
-
     if (this.usuario.password.length < 6) {
       this.mensajeError = 'La contraseña debe tener al menos 6 caracteres.';
       return false;
     }
-
     return true;
   }
 
@@ -79,39 +60,34 @@ export class Registro {
 
     this.cargando = true;
 
-    this.usuarioService.crearAuthUser(this.usuario.email, this.usuario.password)
+    this.authService.registroAuth(this.usuario.email, this.usuario.password)
       .then((credenciales) => {
         
-        
+        const datosPerfil = { ...this.usuario };
+        delete (datosPerfil as any).password; 
+
+        this.usuarioService.postUsuario(datosPerfil).subscribe({
           next: () => {
             this.cargando = false;
-            
-            this.usuario = {
-              uid: '',
-              nombre: '',
-              apellido: '',
-              cedula: '',
-              telefono: '',
-              direccion: '',
-              perfil: '',
-              email: '',
-              password: ''
-            };
-
+            this.usuario = { nombre: '', apellido: '', cedula: '', telefono: '', direccion: '', perfil: '', email: '', password: '' };
             this.router.navigate(['/login']);
           },
           error: (err) => {
             this.cargando = false;
-            console.error(err);
-            this.mensajeError = 'Ocurrió un error al guardar los datos en la base de datos.';
+            this.mensajeError = 'Cuenta creada, pero hubo un error al guardar el perfil.';
           }
         });
 
       })
       .catch((err) => {
         this.cargando = false;
-        console.error(err);
-        this.mensajeError = 'Error al crear la cuenta. Es posible que el correo ya esté registrado.';
+        if (err.code === 'auth/email-already-in-use') {
+          this.mensajeError = 'Este correo ya está registrado en la plataforma.';
+        } else if (err.code === 'auth/invalid-email') {
+          this.mensajeError = 'El formato del correo es inválido.';
+        } else {
+          this.mensajeError = 'Ocurrió un error al crear la cuenta. Intenta de nuevo.';
+        }
       });
   }
 }

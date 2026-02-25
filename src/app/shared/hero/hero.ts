@@ -8,13 +8,12 @@ import { RouterLink} from '@angular/router';
   styleUrl: './hero.css',
 })
 export class Hero {
-  //La informacion que recibe el componente padre
-  @Input() titulo!: string;
+@Input() titulo!: string;
   @Input() subtitulo!: string; 
-  @Input() linkBoton: string = '/';
+  @Input() linkBoton1: string = '/'; 
+  @Input() linkBoton2: string = '/';
   @Input() imagenUrl!: string; 
   @Input() videoUrl!: string;
-  @Input() txtBotton1!: String;
-  @Input() txtBotton2!: String;
-
+  @Input() textoBoton1!: string; 
+  @Input() textoBoton2!: string;
 }

@@ -15,46 +15,46 @@ export class Servicios {
 
   servicios: Servicio[] = [
     {
-      titulo: "Dominio Total de Moodle",
-      descripcion: "Aprende a gestionar plataformas educativas como un profesional.",
-      detalle: "Formación completa para administrar Moodle desde cero: instalación en servidor, creación de cursos optimizados, configuración avanzada de actividades, automatización de matrículas y gestión del desempeño estudiantil mediante calificaciones y reportes. Ideal para instituciones educativas y profesionales e-learning.",
+      titulo: "Dominio Total de Moodle 4.0",
+      descripcion: "Transforma tu aula virtual en un entorno interactivo y altamente profesional.",
+      detalle: "Programa integral para administrar Moodle desde cero. Aprenderás a configurar aulas, crear recursos interactivos, automatizar matriculaciones y diseñar sistemas de evaluación avanzados.",
       tipo: "tech",
-      
+      imagen: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=800&auto=format&fit=crop"
     },
     {
-      titulo: "Estrategias Educativas para TDAH",
-      descripcion: "Implementa metodologías efectivas basadas en neuroeducación.",
-      detalle: "Aprende a diseñar ambientes de aprendizaje adaptados para estudiantes con TDAH. Incluye herramientas para manejo conductual positivo, material visual optimizado, técnicas de enfoque sostenido, organización de tareas y evaluación diferenciada con instrumentos flexibles.",
+      titulo: "Intervención en TDAH",
+      descripcion: "Metodologías neuroeducativas para potenciar el aprendizaje y la atención.",
+      detalle: "Domina el diseño de ambientes de aprendizaje estructurados para estudiantes con TDAH. Descubre técnicas de manejo conductual y adaptación de materiales.",
       tipo: "inclusion",
-      
+      imagen: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop"
     },
     {
-      titulo: "Planificación Curricular Profesional",
-      descripcion: "Desarrolla planificaciones claras, rápidas y totalmente adaptadas.",
-      detalle: "Te guiamos paso a paso para construir planificaciones microcurriculares eficientes y listas para entregar. Incluye plantillas editables, ejemplos por áreas, redacción de destrezas, evaluación formativa y estructura aprobada por entornos educativos oficiales.",
+      titulo: "Arquitectura Curricular",
+      descripcion: "Planifica de forma ágil, precisa y alineada a los estándares actuales.",
+      detalle: "Optimiza tu tiempo con este taller práctico. Te entregamos plantillas editables y te enseñamos a redactar destrezas y construir planificaciones microcurriculares.",
       tipo: "admin",
-      
+      imagen: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop"
     },
     {
-      titulo: "Autismo en el Aula",
-      descripcion: "Aplica recursos visuales y estructuración efectiva.",
-      detalle: "Comprende las características del espectro autista y aprende a implementar pictogramas, agendas visuales, anticipadores, zonas de regulación emocional y estrategias sensoriales. Diseñado para docentes que buscan inclusión real en el aula.",
+      titulo: "TEA y Espectro Autista",
+      descripcion: "Estrategias sensoriales y comunicación aumentativa para inclusión efectiva.",
+      detalle: "Comprende a profundidad el perfil del estudiante con TEA. Aprenderás a crear agendas visuales, anticipadores y zonas de regulación emocional.",
       tipo: "inclusion",
-      
+      imagen: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=800&auto=format&fit=crop"
     },
     {
-      titulo: "Gamificación Digital para Docentes",
-      descripcion: "Transforma tus clases con herramientas interactivas modernas.",
-      detalle: "Domina plataformas como Kahoot, Genially, Wordwall y crea actividades gamificadas de alto impacto. Aprende a diseñar misiones, sistemas de recompensas, rankings, escape rooms educativos y dinámicas que incrementan la motivación de tus estudiantes.",
+      titulo: "Gamificación Didáctica",
+      descripcion: "Aumenta la motivación y el compromiso mediante dinámicas de juego.",
+      detalle: "Ve más allá de una simple trivia. Aprende a crear narrativas educativas, sistemas de recompensas y escape rooms utilizando herramientas de vanguardia.",
       tipo: "tech",
-      
+      imagen: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=800&auto=format&fit=crop"
     },
     {
       titulo: "Evaluación por Rúbricas",
-      descripcion: "Crea instrumentos justos, claros y alineados a competencias.",
-      detalle: "Aprende a diseñar rúbricas analíticas, holísticas y por niveles de desempeño para evaluar competencias y procesos. Incluye criterios profesionales, ejemplos por asignaturas y modelado práctico desde cero.",
+      descripcion: "Crea instrumentos de evaluación objetivos, justos y medibles.",
+      detalle: "Domina la evaluación formativa. Te enseñamos a diseñar rúbricas analíticas y holísticas que eliminan la subjetividad y mejoran la retroalimentación.",
       tipo: "admin",
-      
+      imagen: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop"
     }
   ];
 
@@ -65,4 +65,5 @@ export class Servicios {
   cerrarModal() {
     this.cursoSeleccionado = null;
   }
+
 }

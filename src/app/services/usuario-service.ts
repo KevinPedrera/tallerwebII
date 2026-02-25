@@ -1,29 +1,40 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { firebaseconfig } from '../../config/firebase.config';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { Usuario } from '../models/usuario';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
+  private http = inject(HttpClient);
 
-private dbURL = `${firebaseconfig.databaseURL}/usuarios`;
+  private API_URL = 'https://app-fire-73d6f-default-rtdb.firebaseio.com';
 
-  constructor(private http: HttpClient) {}
+  getUsuarios(): Observable<any[]> {
+    return this.http
+      .get<{ [key: string]: any }>(`${this.API_URL}/usuarios.json`)
+      .pipe(
+        map(respuesta => {
+          if (!respuesta) return [];
 
-  crearAuthUser(email: string, password: string) {
-    const auth = getAuth();
-    return createUserWithEmailAndPassword(auth, email, password);
+          return Object.keys(respuesta).map(id => ({
+            id,
+            ...respuesta[id]
+          }));
+        })
+      );
   }
 
-  postUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.dbURL}/${usuario.uid}.json`, usuario);
+  postUsuario(usuario: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/usuarios.json`, usuario);
   }
 
-  getUsuarioPorUid(uid: string): Observable<Usuario | null> {
-    return this.http.get<Usuario | null>(`${this.dbURL}/${uid}.json`);
+  putUsuario(id: string, usuario: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/usuarios/${id}.json`, usuario);
   }
+
+  deleteUsuario(id: string): Observable<any> {
+    return this.http.delete(`${this.API_URL}/usuarios/${id}.json`);
+  }
+
 }

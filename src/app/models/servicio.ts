@@ -3,4 +3,5 @@ export interface Servicio {
   descripcion: string; 
   detalle: string;
   tipo: 'tech' | 'inclusion' | 'admin';
+  imagen: string;
 }

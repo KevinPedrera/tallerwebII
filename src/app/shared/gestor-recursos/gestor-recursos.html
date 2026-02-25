@@ -1,0 +1,118 @@
+<div class="max-w-6xl mx-auto p-6 bg-slate-50 min-h-screen pt-24">
+  
+  <div class="mb-10 text-center md:text-left">
+    <span class="text-indigo-600 font-bold tracking-widest uppercase text-sm mb-2 block">Administración</span>
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Gestor de Recursos Educativos</h1>
+    <p class="text-slate-500 mt-2">Sube plantillas, guías o herramientas para la comunidad docente.</p>
+  </div>
+
+  <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 mb-10">
+    <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+      <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      {{ editando ? 'Editar Recurso' : 'Registrar Nuevo Recurso' }}
+    </h2>
+    
+    <form (ngSubmit)="guardarRecurso()" #formRecurso="ngForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="md:col-span-1">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Título del material</label>
+        <input [(ngModel)]="nuevoRecurso.titulo" name="titulo" type="text" placeholder="Ej: Rúbrica de Evaluación" required
+          class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-slate-50">
+      </div>
+      
+      <div class="md:col-span-1">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Tipo de recurso</label>
+        <select [(ngModel)]="nuevoRecurso.tipo" name="tipo" required
+          class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-slate-50">
+          <option value="" disabled selected>Seleccione...</option>
+          <option value="Plantilla">Plantilla</option>
+          <option value="Guía">Guía</option>
+          <option value="Herramienta">Herramienta</option>
+        </select>
+      </div>
+      
+      <div class="md:col-span-1">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Enlace de descarga (URL)</label>
+        <input [(ngModel)]="nuevoRecurso.enlace" name="enlace" type="url" placeholder="https://drive.google.com/..." required
+          class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-slate-50">
+      </div>
+       
+      <div class="md:col-span-3 flex justify-end gap-3 mt-4 border-t border-slate-100 pt-6">
+        @if (editando) {
+          <button type="button" (click)="resetear()"
+            class="px-6 py-3 text-slate-600 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors font-medium">
+            Cancelar edición
+          </button>
+        }
+        
+        <button type="submit" [disabled]="!formRecurso.valid || cargando"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-indigo-600/30 disabled:bg-slate-400 disabled:shadow-none">
+          @if (cargando) {
+            Guardando...
+          } @else {
+            {{ editando ? 'Actualizar recurso' : 'Guardar recurso' }}
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-sm overflow-hidden border border-slate-200">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-slate-800 text-white">
+          <tr>
+            <th class="p-5 font-bold uppercase text-xs tracking-wider">Título</th>
+            <th class="p-5 font-bold uppercase text-xs tracking-wider">Tipo</th>
+            <th class="p-5 font-bold uppercase text-xs tracking-wider">Enlace</th>
+            <th class="p-5 font-bold uppercase text-xs tracking-wider text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+         @for (recurso of listaRecursos(); track recurso.id) {
+            <tr class="hover:bg-indigo-50/50 transition-colors group">
+              
+              <td class="p-5 text-slate-900 font-semibold">{{recurso.titulo}}</td>
+              
+              <td class="p-5">
+                <span class="px-3 py-1 rounded-full text-xs font-bold"
+                  [ngClass]="{
+                    'bg-blue-100 text-blue-700': recurso.tipo === 'Plantilla',
+                    'bg-emerald-100 text-emerald-700': recurso.tipo === 'Guía',
+                    'bg-amber-100 text-amber-700': recurso.tipo === 'Herramienta'
+                  }">
+                  {{recurso.tipo}}
+                </span>
+              </td>
+              
+              <td class="p-5 text-indigo-600 hover:text-indigo-800">
+                <a [href]="recurso.enlace" target="_blank" class="truncate block max-w-xs text-sm flex items-center gap-1">
+                  Ver archivo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
+              </td>
+
+              <td class="p-5 flex justify-center gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                <button (click)="seleccionarParaEditar(recurso)" class="p-2 text-slate-400 hover:text-indigo-600 bg-white border border-slate-200 hover:border-indigo-300 rounded-lg shadow-sm transition-all" title="Editar">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </button>
+                <button (click)="eliminarRecurso(recurso.id!)" class="p-2 text-slate-400 hover:text-red-600 bg-white border border-slate-200 hover:border-red-300 rounded-lg shadow-sm transition-all" title="Eliminar">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </td>
+            </tr>
+          }@empty {
+            <tr>
+              <td colspan="4" class="p-12 text-center text-slate-500">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2-2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                  <p class="text-lg font-medium">No hay recursos registrados</p>
+                  <p class="text-sm font-light mt-1">Usa el formulario de arriba para agregar el primero.</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

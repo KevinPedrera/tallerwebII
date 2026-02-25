@@ -5,7 +5,7 @@ import { NgClass } from "../../../../node_modules/@angular/common/types/_common_
 
 @Component({
   selector: 'app-modal',
-  imports: [FormsModule],
+  imports: [],
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })

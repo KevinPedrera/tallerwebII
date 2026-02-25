@@ -8,5 +8,18 @@ import { RouterLink } from "@angular/router";
   styleUrl: './footer.css',
 })
 export class Footer {
-  anio: number = new Date ().getFullYear();
+  anio = new Date().getFullYear();
+  
+  mostrarMensajeExito: boolean = false; 
+  
+  suscribirse(event: Event, emailInput: HTMLInputElement) {
+    event.preventDefault(); 
+    if (emailInput.value.trim() !== '') {
+      this.mostrarMensajeExito = true;
+      emailInput.value = '';
+      setTimeout(() => {
+        this.mostrarMensajeExito = false;
+      }, 3500);
+    }
+  }
 }
