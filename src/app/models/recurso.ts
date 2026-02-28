@@ -1,6 +1,7 @@
 export interface Recurso {
-    id?: string;
+    id?: number;
     titulo: string;
     tipo: 'Plantilla' | 'Guía' | 'Herramienta' | '';
     enlace: string;
+    autor?: string;
 }

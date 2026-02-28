@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,33 +8,36 @@ import { map, Observable } from 'rxjs';
 export class UsuarioService {
   private http = inject(HttpClient);
 
-  private API_URL = 'https://app-fire-73d6f-default-rtdb.firebaseio.com';
+  private API_URL = 'http://localhost:8080/usuario';
+
+  private obtenerCabeceras(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
   getUsuarios(): Observable<any[]> {
-    return this.http
-      .get<{ [key: string]: any }>(`${this.API_URL}/usuarios.json`)
-      .pipe(
-        map(respuesta => {
-          if (!respuesta) return [];
-
-          return Object.keys(respuesta).map(id => ({
-            id,
-            ...respuesta[id]
-          }));
-        })
-      );
+    return this.http.get<any[]>(this.API_URL, { headers: this.obtenerCabeceras() });
   }
 
-  postUsuario(usuario: any): Observable<any> {
-    return this.http.post(`${this.API_URL}/usuarios.json`, usuario);
+  putUsuario(id: number, usuario: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/${id}`, usuario, { headers: this.obtenerCabeceras() });
   }
 
-  putUsuario(id: string, usuario: any): Observable<any> {
-    return this.http.put(`${this.API_URL}/usuarios/${id}.json`, usuario);
+  deleteUsuario(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/${id}`, { headers: this.obtenerCabeceras() });
   }
 
-  deleteUsuario(id: string): Observable<any> {
-    return this.http.delete(`${this.API_URL}/usuarios/${id}.json`);
+  getUsuarioPorEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/email/${email}`, { headers: this.obtenerCabeceras() });
   }
 
+  inscribirCurso(usuarioId: number, cursoId: number): Observable<any> {
+    return this.http.post(`${this.API_URL}/${usuarioId}/inscribir/${cursoId}`, {}, { headers: this.obtenerCabeceras() });
+  }
+
+  getProfesores(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/profesores`, { headers: this.obtenerCabeceras() });
+  }
 }

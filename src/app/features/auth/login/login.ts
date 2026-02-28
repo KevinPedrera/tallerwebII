@@ -3,24 +3,21 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
-import { UsuarioService } from '../../../services/usuario-service';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule,RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-
-email: string = '';
+  email: string = '';
   password: string = '';
   mostrarPassword: boolean = false;
   cargando: boolean = false;
   mensajeError: string = '';
 
   private servicioAuth = inject(AuthService);
-  private usuarioService = inject(UsuarioService); // <-- Inyectamos BD
   private router = inject(Router);
 
   togglePassword() {
@@ -37,47 +34,29 @@ email: string = '';
 
     this.cargando = true;
 
-    this.servicioAuth.login(this.email, this.password)
-      .then((credenciales) => {
-        
-        const correoLogueado = credenciales.user?.email;
+    const credenciales = {
+      email: this.email,
+      password: this.password
+    };
 
-        this.usuarioService.getUsuarios().subscribe({
-          next: (usuariosDB) => {
-            this.cargando = false;
-            
-            const miUsuario = usuariosDB.find(u => u.email === correoLogueado);
-
-            if (miUsuario) {
-              if (miUsuario.perfil === 'admin') {
-                this.router.navigate(['/admin']);
-              } else if (miUsuario.perfil === 'profesor') {
-                this.router.navigate(['/profesor']);
-              } else {
-                this.router.navigate(['/estudiante']);
-              }
-            } else {
-              this.router.navigate(['/']); 
-            }
-          },
-          error: () => {
-            this.cargando = false;
-            this.router.navigate(['/']);
-          }
-        });
-
-      })
-      .catch((err) => {
+    this.servicioAuth.login(credenciales).subscribe({
+      next: (respuesta) => {
         this.cargando = false;
-        if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
-          this.mensajeError = 'Correo o contraseña incorrectos.';
+        
+        const perfil = localStorage.getItem('perfil');
+        
+        if (perfil === 'admin') {
+          this.router.navigate(['/admin']);
+        } else if (perfil === 'profesor') {
+          this.router.navigate(['/profesor']);
         } else {
-          this.mensajeError = 'Ocurrió un error al intentar acceder.';
+          this.router.navigate(['/estudiante']);
         }
-      });
-  }
-
-  cerrarSesion() {
-    this.servicioAuth.logout();
+      },
+      error: (err) => {
+        this.cargando = false;
+        this.mensajeError = 'Correo o contraseña incorrectos. Verifica tus credenciales.';
+      }
+    });
   }
 }

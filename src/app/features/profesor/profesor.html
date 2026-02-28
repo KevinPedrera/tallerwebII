@@ -1,33 +1,211 @@
-<div class="min-h-screen bg-slate-50 pt-24 pb-12">
+<div class="min-h-screen bg-slate-50 pt-24 pb-12 relative">
   <div class="max-w-7xl mx-auto px-6">
     
-    <div class="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl p-8 mb-8 shadow-lg text-white">
-      <span class="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">
-        Perfil Experto
-      </span>
-      <h1 class="text-3xl font-extrabold tracking-tight">Mi Aula Virtual</h1>
-      <p class="text-indigo-100 mt-1">Bienvenido, Instructor. Gestiona tus cursos y estudiantes.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 hover:shadow-md transition-shadow">
-        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-4">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900 mb-2">Mis Estudiantes</h3>
-        <p class="text-slate-500 mb-4">Revisa el progreso de los estudiantes inscritos en tus programas.</p>
-        <button class="text-indigo-600 font-bold hover:underline">Ver listado &rarr;</button>
+    <div class="bg-gradient-to-r from-violet-700 to-indigo-700 rounded-3xl p-8 mb-8 shadow-lg text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-end gap-6">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+      
+      <div class="relative z-10">
+        <span class="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block">
+          Perfil Experto
+        </span>
+        <h1 class="text-3xl font-extrabold tracking-tight mb-1">
+          Mi Aula Virtual
+        </h1>
+        <p class="text-indigo-100">Bienvenido, {{ profesorActual?.nombre || 'Profesor' }}. Gestiona tus cursos y estudiantes.</p>
       </div>
 
-      <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 hover:shadow-md transition-shadow">
-        <div class="w-12 h-12 bg-violet-50 rounded-xl flex items-center justify-center text-violet-600 mb-4">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900 mb-2">Evaluaciones Pendientes</h3>
-        <p class="text-slate-500 mb-4">Tienes 3 trabajos finales esperando por retroalimentación.</p>
-        <button class="text-violet-600 font-bold hover:underline">Calificar ahora &rarr;</button>
+      <div class="relative z-10 flex gap-2 bg-black/20 p-1.5 rounded-2xl backdrop-blur-sm">
+        <button (click)="cambiarTab('dashboard')" [ngClass]="{'bg-white text-indigo-700 shadow-sm': tabActiva === 'dashboard', 'text-indigo-50 hover:text-white hover:bg-white/10': tabActiva !== 'dashboard'}" class="px-5 py-2 rounded-xl font-bold transition-all text-sm">
+          Dashboard
+        </button>
+        <button (click)="cambiarTab('estudiantes')" [ngClass]="{'bg-white text-indigo-700 shadow-sm': tabActiva === 'estudiantes', 'text-indigo-50 hover:text-white hover:bg-white/10': tabActiva !== 'estudiantes'}" class="px-5 py-2 rounded-xl font-bold transition-all text-sm">
+          Mis Estudiantes
+        </button>
+        <button (click)="cambiarTab('perfil')" [ngClass]="{'bg-white text-indigo-700 shadow-sm': tabActiva === 'perfil', 'text-indigo-50 hover:text-white hover:bg-white/10': tabActiva !== 'perfil'}" class="px-5 py-2 rounded-xl font-bold transition-all text-sm">
+          Mi Perfil
+        </button>
       </div>
     </div>
+
+    @if (tabActiva === 'dashboard') {
+      <div class="animate-fade-in">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex items-center gap-5 hover:shadow-md transition-shadow">
+            <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 shrink-0">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">Estudiantes Inscritos</p>
+              <p class="text-3xl font-extrabold text-slate-900">{{ misEstudiantes().length }}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex items-center gap-5 hover:shadow-md transition-shadow">
+            <div class="w-14 h-14 bg-violet-50 rounded-2xl flex items-center justify-center text-violet-600 shrink-0">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">Cursos que imparto</p>
+              <p class="text-3xl font-extrabold text-slate-900">{{ misCursos().length }}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              </div>
+              <h3 class="font-bold text-slate-800 leading-tight">Biblioteca de<br>Recursos</h3>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 line-clamp-2">Sube plantillas y documentos para compartir con la comunidad.</p>
+            <a routerLink="/recursos" class="w-full text-center py-2 bg-amber-50 text-amber-700 font-bold rounded-xl hover:bg-amber-100 transition-colors text-sm">
+              Gestionar archivos &rarr;
+            </a>
+          </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-slate-800 mb-6">Mis Cursos Asignados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          @for (curso of misCursos(); track curso.id) {
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+              <img [src]="curso.imagen" class="w-full h-32 object-cover">
+              <div class="p-5 flex flex-col flex-grow">
+                <span class="text-xs font-bold text-indigo-600 uppercase mb-1">{{ curso.categoria }}</span>
+                <h3 class="font-bold text-slate-900 mb-2 leading-tight">{{ curso.titulo }}</h3>
+                <div class="mt-auto pt-3 border-t border-slate-100 flex justify-between items-center text-sm text-slate-500">
+                  <span>{{ curso.duracion }}</span>
+                  <span class="font-semibold text-slate-800">{{ curso.nivel }}</span>
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="col-span-3 text-center py-10 bg-white rounded-3xl border border-dashed border-slate-300">
+              <p class="text-slate-500">Aún no tienes cursos asignados como instructor principal.</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (tabActiva === 'estudiantes') {
+      <div class="animate-fade-in bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Directorio de Estudiantes</h2>
+            <p class="text-sm text-slate-500">Alumnos matriculados en tus cursos.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-white text-slate-500 text-xs uppercase tracking-wider border-b border-slate-100">
+              <tr>
+                <th class="px-6 py-4 font-bold">Estudiante</th>
+                <th class="px-6 py-4 font-bold">Contacto</th>
+                <th class="px-6 py-4 font-bold">Cursos Tomados Contigo</th>
+                <th class="px-6 py-4 font-bold text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              @for (est of misEstudiantes(); track est.id) {
+                <tr class="hover:bg-slate-50 transition-colors">
+                  
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
+                        {{ est.nombre?.charAt(0) }}{{ est.apellido?.charAt(0) }}
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold text-slate-900">{{ est.nombre }} {{ est.apellido }}</p>
+                        <p class="text-xs text-slate-500">ID: {{ est.cedula }}</p>
+                      </div>
+                    </div>
+                  </td>
+                  
+                  <td class="px-6 py-4">
+                    <p class="text-sm text-slate-700 flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                      {{ est.email }}
+                    </p>
+                    <p class="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
+                      <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                      {{ est.telefono }}
+                    </p>
+                  </td>
+                  
+                  <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1">
+                      @for (curso of est.cursosTomados; track curso.id) {
+                        <span class="inline-block px-3 py-1 bg-violet-50 text-violet-700 text-xs font-semibold rounded-lg border border-violet-100 w-max">
+                          {{ curso.titulo }}
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  
+                  <td class="px-6 py-4 text-center">
+                    <button class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors">
+                      Enviar Mensaje
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="px-6 py-12 text-center text-slate-500">
+                    <div class="flex flex-col items-center justify-center">
+                      <svg class="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                      <p class="text-lg font-medium">Aún no hay estudiantes inscritos en tus cursos.</p>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    @if (tabActiva === 'perfil') {
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 max-w-3xl mx-auto animate-fade-in">
+        <h2 class="text-2xl font-bold text-slate-800 mb-6">Información Personal</h2>
+        
+        <form (ngSubmit)="guardarPerfil()" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre</label>
+              <input type="text" name="nombre" [(ngModel)]="profesorActual.nombre" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Apellido</label>
+              <input type="text" name="apellido" [(ngModel)]="profesorActual.apellido" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Teléfono</label>
+              <input type="text" name="telefono" [(ngModel)]="profesorActual.telefono" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Dirección</label>
+              <input type="text" name="direccion" [(ngModel)]="profesorActual.direccion" class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-400 mb-1">Cédula</label>
+              <input type="text" name="cedula" [(ngModel)]="profesorActual.cedula" disabled class="w-full px-4 py-2 border border-slate-100 rounded-xl bg-slate-100 text-slate-500 cursor-not-allowed">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-400 mb-1">Correo Electrónico</label>
+              <input type="email" name="email" [(ngModel)]="profesorActual.email" disabled class="w-full px-4 py-2 border border-slate-100 rounded-xl bg-slate-100 text-slate-500 cursor-not-allowed">
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-md transition-all">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    }
 
   </div>
 </div>

@@ -1,22 +1,207 @@
-<div class="min-h-screen bg-slate-50 pt-24 pb-12">
+<div class="min-h-screen bg-slate-50 pt-24 pb-12 relative">
   <div class="max-w-7xl mx-auto px-6">
     
-    <div class="flex items-center justify-between bg-indigo-900 rounded-3xl p-8 mb-8 shadow-lg relative overflow-hidden">
+    <div class="flex flex-col md:flex-row items-center justify-between bg-indigo-900 rounded-3xl p-8 mb-8 shadow-lg relative overflow-hidden gap-6">
       <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-20 rounded-full blur-3xl -mr-20 -mt-20"></div>
       
       <div class="relative z-10 text-white">
         <span class="bg-indigo-500/30 text-indigo-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block border border-indigo-400/30">
-          Modo Administrador
+          Panel de Control
         </span>
-        <h1 class="text-3xl font-extrabold tracking-tight">Panel de Control</h1>
-        <p class="text-indigo-200 mt-1">Gestión integral de la plataforma DidactiPro.</p>
+        
+        <h1 class="text-3xl font-extrabold tracking-tight">
+          Hola, {{ adminActual ? adminActual.nombre + ' ' + adminActual.apellido : 'Administrador' }}
+        </h1>
+        <p class="text-indigo-200 mt-1">Gestiona los profesores y estudiantes de la plataforma DidactiPro.</p>
+      </div>
+      
+      <div class="relative z-10 w-16 h-16 rounded-full bg-white text-indigo-900 flex items-center justify-center font-bold text-2xl shadow-inner">
+        {{ adminActual ? adminActual.nombre.charAt(0) + adminActual.apellido.charAt(0) : 'AD' }}
       </div>
     </div>
 
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-      <h2 class="text-xl font-bold text-slate-800 mb-4">Administración de Recursos</h2>
-      <p class="text-slate-500 mb-6">Utiliza el gestor para agregar o eliminar material de la comunidad.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Estudiantes</p>
+          <p class="text-3xl font-extrabold text-slate-900">{{ totalEstudiantes }}</p>
+        </div>
       </div>
 
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shrink-0">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2z"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">Profesores Expertos</p>
+          <p class="text-3xl font-extrabold text-slate-900">{{ totalProfesores }}</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shrink-0">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">Administradores</p>
+          <p class="text-3xl font-extrabold text-slate-900">{{ totalAdmins }}</p>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      
+      <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Directorio de Usuarios</h2>
+          <p class="text-sm text-slate-500">Total registrados: {{ usuariosFiltrados().length }}</p>
+        </div>
+        
+        <div class="relative w-full md:w-72">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+          <input type="text" [(ngModel)]="terminoBusqueda" (input)="buscarUsuario()" placeholder="Buscar por nombre, correo o cédula..."
+                 class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-sm">
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">
+            <tr>
+              <th class="px-6 py-4 font-bold">Usuario</th>
+              <th class="px-6 py-4 font-bold">Cédula / Teléfono</th>
+              <th class="px-6 py-4 font-bold">Perfil</th>
+              <th class="px-6 py-4 font-bold text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            @for (user of usuariosFiltrados(); track user.id) {
+              <tr class="hover:bg-indigo-50/30 transition-colors">
+                
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm shrink-0">
+                      {{ user.nombre?.charAt(0) }}{{ user.apellido?.charAt(0) }}
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-slate-900">{{ user.nombre }} {{ user.apellido }}</p>
+                      <p class="text-xs text-slate-500">{{ user.email }}</p>
+                    </div>
+                  </div>
+                </td>
+                
+                <td class="px-6 py-4">
+                  <p class="text-sm text-slate-700 font-medium">{{ user.cedula }}</p>
+                  <p class="text-xs text-slate-500">{{ user.telefono }}</p>
+                </td>
+                
+                <td class="px-6 py-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                        [ngClass]="{
+                          'bg-indigo-100 text-indigo-700': user.perfil === 'admin',
+                          'bg-emerald-100 text-emerald-700': user.perfil === 'profesor',
+                          'bg-amber-100 text-amber-700': user.perfil === 'estudiante'
+                        }">
+                    {{ user.perfil }}
+                  </span>
+                </td>
+                
+                <td class="px-6 py-4 flex justify-center gap-2">
+                  <button (click)="abrirModalEdicion(user)" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" title="Editar información">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                  </button>
+                  <button (click)="eliminarUsuario(user.id)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Eliminar usuario">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="px-6 py-12 text-center text-slate-500">
+                  <p class="text-sm">No se encontraron usuarios registrados o que coincidan con la búsqueda.</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+
+  @if (mostrarModal && usuarioEnEdicion) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-fade-in">
+      <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl overflow-hidden animate-slide-up">
+        
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+          <h3 class="text-xl font-bold text-slate-900">Editar Usuario</h3>
+          <button (click)="cerrarModal()" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-2 shadow-sm transition-all hover:rotate-90">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <div class="p-8">
+          <form class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre</label>
+                <input type="text" [(ngModel)]="usuarioEnEdicion.nombre" name="nombre" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Apellido</label>
+                <input type="text" [(ngModel)]="usuarioEnEdicion.apellido" name="apellido" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Cédula</label>
+                <input type="text" [(ngModel)]="usuarioEnEdicion.cedula" name="cedula" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Teléfono</label>
+                <input type="text" [(ngModel)]="usuarioEnEdicion.telefono" name="telefono" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+              
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Dirección</label>
+                <input type="text" [(ngModel)]="usuarioEnEdicion.direccion" name="direccion" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Perfil</label>
+                <select [(ngModel)]="usuarioEnEdicion.perfil" name="perfil" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="estudiante">Estudiante</option>
+                  <option value="profesor">Profesor</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Nueva Contraseña</label>
+                <input type="password" [(ngModel)]="usuarioEnEdicion.password" name="password" placeholder="Dejar en blanco para no cambiar" class="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-xs">
+              </div>
+            </div>
+            
+            <p class="text-xs text-slate-400 mt-4">* El correo electrónico es el identificador único del usuario y no se puede modificar.</p>
+          </form>
+        </div>
+
+        <div class="p-6 border-t border-slate-100 flex justify-end gap-3 bg-slate-50">
+          <button (click)="cerrarModal()" class="px-6 py-2.5 text-slate-600 font-medium bg-white border border-slate-200 rounded-xl hover:bg-slate-100 transition-all">
+            Cancelar
+          </button>
+          <button (click)="guardarCambios()" class="px-6 py-2.5 text-white font-bold bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-md transition-all">
+            Guardar Cambios
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  }
 </div>
